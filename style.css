@@ -1,0 +1,57 @@
+body{
+    background-color: pink;
+    font-size: 20px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    /* display:block; */
+    /* margin:40px; */
+    /* border:3px solid blue; */
+}
+
+
+.red {
+    background: red;
+    font-size: 20px;
+    width: 200px;
+    height: 200px;
+    border: 2px;
+    border-radius: 2px;
+    /* padding:0px; */
+    /* display:block; */
+    /* margin:40px; */
+    /* border:3px solid blue; */
+}
+
+
+.green {
+    background: green;
+    font-size: 20px;
+    width: 200px;
+    height: 200px;
+    /* padding:0px; */
+    /* display:block; */
+    /* margin:40px; */
+    /* border:3px solid blue; */
+}
+
+.blue {
+    background: blue;
+    font-size: 20px;
+    width: 200px;
+    height: 200px;
+    /* padding:0px; */
+    /* display:block; */
+    /* margin:40px; */
+    /* border:3px solid blue; */
+}
+
+.yellow {
+    background: yellow;
+    font-size: 20px;
+    width: 200px;
+    height: 200px;
+    /* padding:0px; */
+    /* display:block; */
+    /* margin:40px; */
+    /* border:3px solid blue; */
+}
