@@ -56,18 +56,58 @@
 //     console.log(randomGen);
 //   }, 1200);
 
-let runPattern = []
-let playerPattern = []
-let gameLevel = 2
+let runPattern = [];
+let playerPattern = [];
+let gameLevel = 2;
 
-for (let i = 0; i < 2; i++) {
-    let random = Math.floor(Math.random() * 3) + 1;
-    runPattern.push(random);
-    // console.log(random);
-    // let showcolor.id = function [random]  // wtffffff toggle this color id
+//----------------------------------------------random pattern loop
+
+function randomPattern() {
+    for (let i = 0; i < gameLevel; i++) {
+        let random = Math.floor(Math.random() * 3) + 1;
+        runPattern.push(random);
+    }
+    console.log(runPattern);
+    runPattern = [];
+    gameLevel++;
 }
-console.log(runPattern);
 
+//----------------------------------------------for saved pattern from prev loop
+// function randomPattern() {
+//         let random = Math.floor(Math.random() * 3) + 1;
+//         runPattern.push(random);
+//         console.log(runPattern);
+// } 
+//---------------------------------------------
+
+randomPattern();
+// test loop sorta
+document.getElementById("1").addEventListener("click", function () {
+    playerPattern.push(1);
+    console.log(playerPattern);
+    // randomPattern();
+});
+document.getElementById("2").addEventListener("click", function () {
+    playerPattern.push(2);
+    console.log(playerPattern);
+    // randomPattern();
+});
+document.getElementById("3").addEventListener("click", function () {
+    playerPattern.push(3);
+    console.log(playerPattern);
+    // randomPattern();
+});
+
+function comparing(){
+    for (let i = 0; i < runPattern.length; i++) {
+        if(runPattern[i] === playerPattern[i]){
+    }
+}
+
+}
+
+
+// console.log(playerPattern);
 
 //------------------------------------------------- visual notifier when colors are clicked----------------
 
@@ -79,20 +119,17 @@ console.log(runPattern);
 // });
 
 for (let num of runPattern) {
-$("#"+num).fadeOut(1000).fadeIn(1000);
-setTimeout(function () {}, 2000);
-  }
+    $("#" + num).fadeOut(500).fadeIn(500);
+    setTimeout(function () {}, 1000);
+}
+
+
 
 // document.getElementById("1").addEventListener("click", function(){
-//     console.log("hi");
+//     let random = Math.floor(Math.random() * 3) + 1;
+//     playerPattern.push(random);
 // });
 
-document.getElementById("1").addEventListener("click", function(){
-    let random = Math.floor(Math.random() * 3) + 1;
-    playerPattern.push(random);
-});
-
-console.log(playerPattern);
 
 // container.addEventListener("click", clicked);
 // function clicked(event) {
