@@ -45,6 +45,7 @@
 let runPattern = [];
 let playerPattern = [];
 let gameLevel = 2;
+let status = null;
 randomPattern()
 compare()
 
@@ -63,19 +64,19 @@ function randomPattern() {
 
 document.getElementById("1").addEventListener("click", function () {
     playerPattern.push(1); // push selection into array
-    $(this).fadeOut(200).fadeIn(200); // blink when user select square
+    $(this).fadeOut(100).fadeIn(100); // blink when user select square
     compare()
 });
 
 document.getElementById("2").addEventListener("click", function () {
     playerPattern.push(2); // push selection into array
-    $(this).fadeOut(200).fadeIn(200); // blink when user select square
+    $(this).fadeOut(100).fadeIn(100); // blink when user select square
     compare()
 });
 
 document.getElementById("3").addEventListener("click", function () {
     playerPattern.push(3); // push selection into array
-    $(this).fadeOut(200).fadeIn(200); // blink when user select square
+    $(this).fadeOut(100).fadeIn(100); // blink when user select square
     compare()
 });
 
@@ -86,12 +87,16 @@ function compare() {
     if (playerPattern.length == runPattern.length) {
         if (JSON.stringify(runPattern) == JSON.stringify(playerPattern)) {
             console.log("Correct " + playerPattern);
+            status = "win"
+            notification()
             runPattern = [];
             playerPattern = [];
             gameLevel++;
             randomPattern()
         } else {
             console.log("false");
+            status = "lose"
+            notification()
         }
     }
 }
@@ -111,10 +116,20 @@ function blinker() {
 }
 
 
-//------------------------------------------------- ON CLICK CHECKER ----------------
+//------------------------------------------------- WIN LOSE NOTIFICATION  ----------------
 
+function notification() {
 
-// container.addEventListener("click", clicked);
-// function clicked(event) {
-//     document.querySelector('.' + event.target.className)
-// }
+    if (status == "win") {
+        alert('Correct! Next round will have an additional sequence');
+    }
+    if (status == "lose") {
+        alert('Incorrect, you have lost the game..');
+    }
+
+    // let playerOne = document.createElement('p');
+    // playerOne.id = "player1";
+    // container.appendChild(playerOne);
+    // document.getElementById('player1').innerHTML = "Player 1: " + playerOneName;
+
+}
