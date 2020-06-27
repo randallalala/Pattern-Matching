@@ -17,7 +17,6 @@
 // // function clicked(event) {
 // //     let clickk = document.querySelector('.'+ event.target.className)
 
-
 //--------------------------------------------------------------------------------------------
 
 // @keyframes pop{
@@ -25,91 +24,8 @@
 //   }
 //   #pop:hover{
 //     animation: pop 0.3s linear 1;}
-//--------------------------------------------------------------------------------------------
+//----------------------------------- OLD COLOR BLINKER TOGGLE -------------------------------------------------
 
-
-
-// $(".btn-new").click(function () { 
-// gamePlay = true;
-// currentScore = 0;
-// endGameScore = 20;
-// finalScores = [0, 0];
-// document.querySelector("#current-0").textContent = 0;
-// document.querySelector("#current-1").textContent = 0;
-
-//   if(this.innerHTML === 'Play') 
-//   { 
-//     this.innerHTML = 'Pause';
-//     boxOne.classList.add('horizTranslate');
-//   } else {
-//     this.innerHTML = 'Play';
-//     var computedStyle = window.getComputedStyle(boxOne),
-//         marginLeft = computedStyle.getPropertyValue('margin-left');
-//     boxOne.style.marginLeft = marginLeft;
-//     boxOne.classList.remove('horizTranslate');   }
-//--------------------------------------------------------------------------------------------
-
-//   clearInterval(interval);
-
-// let interval = setInterval(function() {
-//     let randomGen = Math.floor(Math.random() * 3) + 1;
-//     console.log(randomGen);
-//   }, 1200);
-
-let runPattern = [];
-let playerPattern = [];
-let gameLevel = 2;
-
-//----------------------------------------------random pattern loop
-
-function randomPattern() {
-    for (let i = 0; i < gameLevel; i++) {
-        let random = Math.floor(Math.random() * 3) + 1;
-        runPattern.push(random);
-    }
-    console.log(runPattern);
-    runPattern = [];
-    gameLevel++;
-}
-
-//----------------------------------------------for saved pattern from prev loop
-// function randomPattern() {
-//         let random = Math.floor(Math.random() * 3) + 1;
-//         runPattern.push(random);
-//         console.log(runPattern);
-// } 
-//---------------------------------------------
-
-randomPattern();
-// test loop sorta
-document.getElementById("1").addEventListener("click", function () {
-    playerPattern.push(1);
-    console.log(playerPattern);
-    // randomPattern();
-});
-document.getElementById("2").addEventListener("click", function () {
-    playerPattern.push(2);
-    console.log(playerPattern);
-    // randomPattern();
-});
-document.getElementById("3").addEventListener("click", function () {
-    playerPattern.push(3);
-    console.log(playerPattern);
-    // randomPattern();
-});
-
-function comparing(){
-    for (let i = 0; i < runPattern.length; i++) {
-        if(runPattern[i] === playerPattern[i]){
-    }
-}
-
-}
-
-
-// console.log(playerPattern);
-
-//------------------------------------------------- visual notifier when colors are clicked----------------
 
 // $("#1").click(function () {
 //     $(this).toggleClass('opaque');
@@ -118,17 +34,98 @@ function comparing(){
 //         $this.toggleClass('opaque')}, 500);
 // });
 
-for (let num of runPattern) {
-    $("#" + num).fadeOut(500).fadeIn(500);
-    setTimeout(function () {}, 1000);
+
+//---------------------------------------------- INTERVAL ----------------------------------------------
+
+//   clearInterval(interval);
+
+// let interval = setInterval(function() {
+//     let randomGen = Math.floor(Math.random() * 3) + 1;
+//     console.log(randomGen);
+//   }, 1200);
+
+
+//---------------------------------------------- GLOBAL VARIABLES --------------------------
+
+
+let runPattern = [];
+let playerPattern = [];
+let gameLevel = 2;
+
+
+//---------------------------------------------- RANDOM PATTERN LOOP --------------------------
+
+// IIFE
+function randomPattern() {
+        for (let i = 0; i < gameLevel; i++) {
+            let random = Math.floor(Math.random() * 3) + 1;
+            runPattern.push(random);
+        }
+        console.log("RunPattern " + runPattern);
+        gameLevel++;
+    }
+    randomPattern()
+
+//--------------------------------------- PLAYER PATTERN -------------------------------------------
+
+// randomPattern();
+// test loop sorta
+
+document.getElementById("1").addEventListener("click", function () {
+    playerPattern.push(1); // push selection into array
+    // console.log("Player " + playerPattern);
+    compare()
+    $(this).fadeOut(500).fadeIn(500); // blink when user select square
+});
+
+document.getElementById("2").addEventListener("click", function () {
+    playerPattern.push(2); // push selection into array
+    // console.log("Player " + playerPattern);
+    compare()
+    $(this).fadeOut(500).fadeIn(500); // blink when user select square
+});
+
+document.getElementById("3").addEventListener("click", function () {
+    playerPattern.push(3); // push selection into array
+    // console.log("Player " + playerPattern);
+    compare()
+    $(this).fadeOut(500).fadeIn(500); // blink when user select square
+});
+
+//------------------------------------ COMPARING CHECKER ---------------------------------
+
+function compare() {
+    if (playerPattern.length == runPattern.length) {
+        if (JSON.stringify(runPattern) == JSON.stringify(playerPattern)) {
+            console.log("Player " + playerPattern);
+            console.log("true");
+            randomPattern();
+        } else {
+            console.log("false");
+        }
+    }
+         else {
+            console.log("error");
+        }
 }
 
+//------------------------------------------------- COMPARE OPTION 2 ----------------
+
+// runPattern.length === playerPattern.length && runPattern.every(function (value, index) {
+// return value === playerPattern[index]
+
+//------------------------------------------------- COLOR SQUARES BLINKER ----------------
+(
+    function blinker() {
+        for (let num of runPattern) {
+            $("#" + num).fadeOut(500).fadeIn(500);
+            setTimeout(function () {}, 1000);
+        }
+    }
+)()
 
 
-// document.getElementById("1").addEventListener("click", function(){
-//     let random = Math.floor(Math.random() * 3) + 1;
-//     playerPattern.push(random);
-// });
+//------------------------------------------------- ON CLICK CHECKER ----------------
 
 
 // container.addEventListener("click", clicked);

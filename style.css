@@ -2,9 +2,15 @@ body {
     background-color: grey;
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
+    /* text-align: center; */
+}
+
+.container {
+margin-left: 110px
 }
 
 .red {
+    text-align: center;
     background: red;
     width: 200px;
     height: 200px;
@@ -27,5 +33,5 @@ body {
 
 .opaque {
     background: grey;
-    transition: 1s ;
+    transition: 1s;
 }
