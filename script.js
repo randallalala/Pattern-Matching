@@ -37,92 +37,78 @@
 
 //---------------------------------------------- INTERVAL ----------------------------------------------
 
-//   clearInterval(interval);
-
-// let interval = setInterval(function() {
-//     let randomGen = Math.floor(Math.random() * 3) + 1;
-//     console.log(randomGen);
-//   }, 1200);
-
+// clearInterval(interval);
+// setInterval(function () {}, 1000);
 
 //---------------------------------------------- GLOBAL VARIABLES --------------------------
-
 
 let runPattern = [];
 let playerPattern = [];
 let gameLevel = 2;
-
+randomPattern()
+compare()
 
 //---------------------------------------------- RANDOM PATTERN LOOP --------------------------
 
-// IIFE
 function randomPattern() {
-        for (let i = 0; i < gameLevel; i++) {
-            let random = Math.floor(Math.random() * 3) + 1;
-            runPattern.push(random);
-        }
-        console.log("RunPattern " + runPattern);
-        gameLevel++;
+    for (let i = 0; i < gameLevel; i++) {
+        let random = Math.floor(Math.random() * 3) + 1;
+        runPattern.push(random);
     }
-    randomPattern()
+    blinker() // blink for id color (TOFIX DELAY) 
+    console.log("Pattern " + runPattern);
+}
 
 //--------------------------------------- PLAYER PATTERN -------------------------------------------
 
-// randomPattern();
-// test loop sorta
-
 document.getElementById("1").addEventListener("click", function () {
     playerPattern.push(1); // push selection into array
-    // console.log("Player " + playerPattern);
+    $(this).fadeOut(200).fadeIn(200); // blink when user select square
     compare()
-    $(this).fadeOut(500).fadeIn(500); // blink when user select square
 });
 
 document.getElementById("2").addEventListener("click", function () {
     playerPattern.push(2); // push selection into array
-    // console.log("Player " + playerPattern);
+    $(this).fadeOut(200).fadeIn(200); // blink when user select square
     compare()
-    $(this).fadeOut(500).fadeIn(500); // blink when user select square
 });
 
 document.getElementById("3").addEventListener("click", function () {
     playerPattern.push(3); // push selection into array
-    // console.log("Player " + playerPattern);
+    $(this).fadeOut(200).fadeIn(200); // blink when user select square
     compare()
-    $(this).fadeOut(500).fadeIn(500); // blink when user select square
 });
+
 
 //------------------------------------ COMPARING CHECKER ---------------------------------
 
 function compare() {
     if (playerPattern.length == runPattern.length) {
         if (JSON.stringify(runPattern) == JSON.stringify(playerPattern)) {
-            console.log("Player " + playerPattern);
-            console.log("true");
-            randomPattern();
+            console.log("Correct " + playerPattern);
+            runPattern = [];
+            playerPattern = [];
+            gameLevel++;
+            randomPattern()
         } else {
             console.log("false");
         }
     }
-         else {
-            console.log("error");
-        }
 }
 
-//------------------------------------------------- COMPARE OPTION 2 ----------------
+
+//------------------------------------------ CONTINUOUS COMPARE OPTION 2 ----------------
 
 // runPattern.length === playerPattern.length && runPattern.every(function (value, index) {
 // return value === playerPattern[index]
 
-//------------------------------------------------- COLOR SQUARES BLINKER ----------------
-(
-    function blinker() {
-        for (let num of runPattern) {
-            $("#" + num).fadeOut(500).fadeIn(500);
-            setTimeout(function () {}, 1000);
-        }
+//------------------------------------------------- COLOR SQUARES BLINKER  ----------------
+function blinker() {
+    for (let num of runPattern) {
+        $("#" + num).fadeOut(200).fadeIn(200);
+        setTimeout(function () {}, 500);
     }
-)()
+}
 
 
 //------------------------------------------------- ON CLICK CHECKER ----------------
