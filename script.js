@@ -26,6 +26,9 @@ let gameLevel = 2;
 let status = null;
 let levelsCompleted = 0;
 let movesCounter = 0;
+
+let timer;
+
 randomPattern()
 compare()
 
@@ -57,6 +60,7 @@ function randomPattern() {
     level()
     moves()
     blinker()
+
     barTimer()
     wordTimer()
     console.log("Pattern " + runPattern);
@@ -120,14 +124,24 @@ function compare() {
 
 //--------------------------------------------------- COLOR SQUARES BLINKER  ----------------------------
 
+
 function blinker() {
 
+    // for (let i = 1; i < runPattern.length + 1; i++) {
+    //     timer = setTimeout(function () {
+        //         console.log("flash" +runPattern[i-1]);
+        //         $("#" + runPattern[i - 1]).fadeOut(200).fadeIn(200);
+    //     }, i*1500);
+    // }
     for (let i = 1; i < runPattern.length + 1; i++) {
-        setTimeout(function timer() {
-            $("#" + runPattern[i - 1]).fadeOut(1000).fadeIn(1000);
-        }, i*1100);
+        //     setTimeout(function () {
+        // $("#" + runPattern[i - 1]).fadeOut(200).fadeIn(200);
+        // }, i*1100);
+        
+        $("#" + runPattern[i - 1]).delay(i*700).fadeOut(200).fadeIn(200);
     }
 
+// clearTimeout(timer)
     // let i = 0; //  set your counter to 1
     // function myLoop() { //  create a loop function
     //     setTimeout(function () { //  call a 3s setTimeout when the loop is called
@@ -176,7 +190,7 @@ function getPlayerName() {
         document.getElementById("player").innerHTML = "Hello Stranger";
     }
 }
-getPlayerName();
+// getPlayerName();
 
 //---------------------------------------------------- LEVELS COMPLETED  ----------------------------------
 
