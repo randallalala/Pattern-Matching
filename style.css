@@ -5,9 +5,9 @@ body {
     /* text-align: center; */
 }
 
-.container {
-margin-left: 110px
-}
+/* .container {
+    margin-left: 110px
+} */
 
 .red {
     text-align: center;
@@ -35,3 +35,4 @@ margin-left: 110px
     background: grey;
     transition: 1s;
 }
+
