@@ -7,15 +7,10 @@
 //     // let output = inputHappened(clicked);
 
 
-//-------------------------------------------- OLD COLOR BLINKER TOGGLE -----------------------------
+//-------------------------------------------- TO FIX -----------------------------------------
 
-
-// $("#1").click(function () {
-//     $(this).toggleClass('opaque');
-//     $this = $(this)
-//     setTimeout(function () {
-//         $this.toggleClass('opaque')}, 500);
-// });
+// -- 1 bug, blinker  shows last index of array after each correct run
+// -- 2 bug for moves counter, first round missing 1 count
 
 
 //---------------------------------------------- INTERVAL ------------------------------------------
@@ -34,10 +29,10 @@ let movesCounter = 0;
 randomPattern()
 compare()
 
+
 //---------------------------------------------- RESTART FUNCTION --------------------------------
 
 function restart() {
-
     runPattern = [];
     playerPattern = [];
     gameLevel = 2;
@@ -61,7 +56,9 @@ function randomPattern() {
 
     level()
     moves()
-    blinker() // blink for id color (TO FIX DELAY) 
+    blinker()
+    barTimer()
+    wordTimer()
     console.log("Pattern " + runPattern);
 }
 
@@ -125,15 +122,15 @@ function compare() {
 
 function blinker() {
 
-    for (let i=1; i<runPattern.length+1; i++) {
-        setTimeout( function timer(){
-            $("#" + runPattern[i-1]).fadeOut(200).fadeIn(200);
-        }, i*1100 );
+    for (let i = 1; i < runPattern.length + 1; i++) {
+        setTimeout(function timer() {
+            $("#" + runPattern[i - 1]).fadeOut(1000).fadeIn(1000);
+        }, i*1100);
     }
-    
+
     // let i = 0; //  set your counter to 1
     // function myLoop() { //  create a loop function
-            //     setTimeout(function () { //  call a 3s setTimeout when the loop is called
+    //     setTimeout(function () { //  call a 3s setTimeout when the loop is called
     //         $("#" + runPattern[i]).fadeOut(200).fadeIn(200);
     //         i++; //  increment the counter
     //         if (i < runPattern.length) { //  if the counter < 10, call the loop function
@@ -157,6 +154,11 @@ function notification() {
         restart()
         alert("Incorrect, you have lost the game.. \nClick ok to restart");
     }
+
+    if (status == "timeup") {
+        restart()
+        alert("Time's up, you have lost the game.. \nClick ok to restart");
+    }
 }
 
 //----------------------------------------------------- NAME OF PLAYER  ----------------------------------
@@ -169,8 +171,11 @@ function getPlayerName() {
     playerName = prompt('Enter your name');
     body.appendChild(player);
     document.getElementById('player').innerHTML = "Hello " + playerName;
-}
 
+    if (playerName != null) {
+        document.getElementById("player").innerHTML = "Hello Stranger";
+    }
+}
 getPlayerName();
 
 //---------------------------------------------------- LEVELS COMPLETED  ----------------------------------
@@ -197,64 +202,42 @@ function moves() {
 }
 
 
-//------------------------------------------------------- TIMER 1 --------------------------------------------
+//------------------------------------------------------- TIMER - BAR ---------------------------------------------
 
-// function startTimer(duration, display) {
-//     let timer = duration,
-//         seconds;
-//     setInterval(function () {
-//         seconds = parseInt(timer % 60, 10);
-//         display.textContent = seconds + "secs";
-//         if (--timer < 0) {
-//             timer = duration;
-//         }
-//     }, 1000);
-// }
+function barTimer() {
+    let bartimeleft = 8;
+    let bardownloadTimer = setInterval(function () {
 
-//------------------------------------------------------- TIMER 2 BAR ---------------------------------------------
+        if (bartimeleft <= 0 || status == "win") {
+            clearInterval(bardownloadTimer);
+                // status = "timeup"
+                // notification()
+        }
 
-// let timeleft = 5;
-// let downloadTimer = setInterval(function () {
-//     if (timeleft <= 0) {
-//         clearInterval(downloadTimer);
-//     }
+        document.getElementById("progressBar").value = 8 - bartimeleft;
+        bartimeleft -= 1;
+    }, 500); // ADD TRIGGER TO STOP GAME - PLAYER RAN OUT OF TIME
+}
+//----------------------------------------------------------- WORDED TIMER  ------------------------------------------
+function wordTimer() {
+    let timeleft = 8;
+    let downloadTimer = setInterval(function () {
 
-//     document.getElementById("progressBar").value = 5 - timeleft;
-//     timeleft -= 0.5;
-// }, 500); // ADD TRIGGER TO STOP GAME - PLAYER RAN OUT OF TIME
+        if (timeleft <= 0|| status == "win") {
+            clearInterval(downloadTimer );
+            document.getElementById("countdown").innerHTML = "Time's Up!";
+         
 
-//-------------------------------------------------------- WORDED TIMER -------------------------------------------
+        } else {
+            document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+        }
 
-// function timerCountDownFunction() {
+        timeleft -= 1;
+    }, 500);
+}
 
-//     timerInterval = setInterval(timerCountDownFunction, 1000)
-//     let body = document.querySelector("body");
-//     let counDownTimer = document.createElement('p');
-//     let gameTime = 5;
-//     body.appendChild(counDownTimer);
-//     gameTime--;
-//     countDownTimer.innerHTML = (`Timer = ${gameTime}`);
-
-//     if (gameTime === 0) {
-//         alert(`Time's Up !!! \n Your Score is ${score}`);
-//         clearInterval(timerInterval);
-//         gameState = 1;
-//     }
-// }
-//----------------------------------------------------------- WORDED TIMER 2 ------------------------------------------
-// var timeleft = 10;
-// var downloadTimer = setInterval(function(){
-//   if(timeleft <= 0){
-//     clearInterval(downloadTimer);
-//     document.getElementById("countdown").innerHTML = "Finished";
-//   } else {
-//     document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-//   }
-//   timeleft -= 1;
-// }, 1000);
 
 //----------------------------------------------------------- START BUTTON --------------------------------------------
 
 // startBtn.addEventListener('click', function(){
 // })
-
