@@ -2,7 +2,8 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="style.css">
     <title>Pattern Matching Game</title>
@@ -16,7 +17,7 @@
         </source></audio>
 
     <h1>Pattern Matching Game</h1>
-    
+
     <div class="container">
         <div id="1" class="red "></div>
         <div id="2" class="green "></div>
@@ -26,6 +27,13 @@
     </div>
     <progress value="0" max="patternTimerRef" id="progressBar"></progress>
     <div id="countdown"></div>
+    
+    <div>Difficulty Level </div>
+    <select id="difficulty" name="dropmenu">
+        <option value="normal">Normal</option>
+        <option value="extreme">Extreme</option>
+    </select>
+
     <button id="startBtn" class="btn btn-secondary btn-lg">Start Game</button>
 
     <p></p>
