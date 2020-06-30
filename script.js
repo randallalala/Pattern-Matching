@@ -9,43 +9,45 @@
 
 //-------------------------------------------- TO FIX -----------------------------------------
 
-// -- 1 bug, blinker  shows last index of array after each correct run
-// -- 2 bug for moves counter, first round missing 1 count
-// - remove alerts
-//start button
-//restart button
 
-
-//---------------------------------------------- INTERVAL ------------------------------------------
+//---------------------------------------------- INTERVAL ----------------------------------------------
 
 // clearInterval(interval);
 // setInterval(function () {}, 1000);
 
-//---------------------------------------------- GLOBAL VARIABLES --------------------------------
-
+//---------------------------------------------- GLOBAL VARIABLES ----------------------------------------
+let audio = new Audio('homer_scream.mp3');
+audio.volume = 0.3;
 let runPattern = [];
 let playerPattern = [];
 let gameLevel = 1;
-let status = null;
+// let status = null;
 let levelsCompleted = 0;
 let movesCounter = 0;
 let downloadTimer = null
+let patternTimerRef = null
+let globalIndex = 0
+// console.log(patternTimerRef);
+let msg = document.createElement('p');
+let body = document.querySelector("body");
+msg.id = "msg";
+body.appendChild(msg);
 
-
-
-//---------------------------------------------- RESTART FUNCTION --------------------------------
+//---------------------------------------------- RESTART FUNCTION ----------------------------------------
 
 function restart() {
     runPattern = [];
     playerPattern = [];
     gameLevel = 1;
-    status = null;
+    // status = null;
     levelsCompleted = 0;
     movesCounter = 0;
     downloadTimer = null
+    patternTimerRef = null
+    globalIndex = 0
 }
 
-//---------------------------------------------- RANDOM PATTERN LOOP --------------------------------
+//---------------------------------------------- RANDOM PATTERN LOOP ----------------------------------------
 
 function randomPattern() {
 
@@ -53,14 +55,14 @@ function randomPattern() {
 
         let random = Math.floor(Math.random() * 4) + 1;
         runPattern.push(random);
-    }
+        patternTimerRef = i + 4
+        document.getElementById("progressBar").max = patternTimerRef;
 
+    }
+    // console.log(patternTimerRef);
     level();
     moves();
     blinker();
-
-    // barTimer()
-
     clearInterval(downloadTimer)
     wordTimer()
     console.log("Pattern " + runPattern);
@@ -68,87 +70,94 @@ function randomPattern() {
 
 //------------------------------------------------- START BUTTON / PLAYER PATTERN -------------------------------------
 
-// getElementById('startBtn').style.display = 'block';
 
 document.getElementById("startBtn").addEventListener('click', function () {
 
     randomPattern();
     movesCounter = 1;
-    this.style.display = 'none'
+    this.style.display = 'none' // hide start button
 
     document.getElementById("1").addEventListener("click", function () {
-
         playerPattern.push(1); // push selection into array
         $(this).fadeOut(100).fadeIn(100); // blink when user select square
         compare();
         movesCounter++;
-
+        audio.play();
     });
 
     document.getElementById("2").addEventListener("click", function () {
-
         playerPattern.push(2); // push selection into array
         $(this).fadeOut(100).fadeIn(100); // blink when user select square
         compare();
         movesCounter++;
+        audio.play();
     });
 
     document.getElementById("3").addEventListener("click", function () {
-
         playerPattern.push(3); // push selection into array
         $(this).fadeOut(100).fadeIn(100); // blink when user select square
         compare();
         movesCounter++;
+        audio.play();
     });
 
     document.getElementById("4").addEventListener("click", function () {
-
         playerPattern.push(4); // push selection into array
         $(this).fadeOut(100).fadeIn(100); // blink when user select square
         compare();
         movesCounter++;
+        audio.play();
     })
 
 })
 
 
 
-//--------------------------------------------------- COMPARING CHECKER ---------------------------------
+//--------------------------------------------------- COMPARING CHECKER -----------------------------
 
 function compare() {
-    if (playerPattern.length == runPattern.length) {
+    if (JSON.stringify(runPattern[globalIndex]) == JSON.stringify(playerPattern[globalIndex])) {
+        // console.log(globalIndex + '-Index correct');
+        // console.log(playerPattern[globalIndex] + "-playerPattern correct");
+        // console.log(runPattern[globalIndex] + "-runPattern correct");
+        globalIndex++
 
-        if (JSON.stringify(runPattern) == JSON.stringify(playerPattern)) {
+        if (playerPattern.length == runPattern.length) {
+            globalIndex = 0
+            // console.log("deeeperr");
+            if (JSON.stringify(runPattern) == JSON.stringify(playerPattern)) {
+                // console.log("Correct " + playerPattern);
+                win(); // win msg on screen
+                runPattern = [];
+                playerPattern = [];
+                gameLevel++;
+                levelsCompleted++;
+                randomPattern();
 
-            console.log("Correct " + playerPattern);
-            status = "win";
-            win();
-            runPattern = [];
-            playerPattern = [];
-            gameLevel++;
-            levelsCompleted++;
-            randomPattern();
-
-        } else {
-            document.getElementById('win').innerHTML = " "; //clear win msg
-            console.log("lose");
-            lose();
-            status = "lose";
-            resetBtn();
-            document.getElementById("resetBtn").addEventListener("click", function () {
-                location.reload()
-            })
-
+            } else {
+                console.log("lose");
+                msg.innerHTML = ""; //clear win msg
+                lose(); // lose msg on screen
+            }
         }
+    } else {
+        console.log("lose");
+        lose(); // lose msg on screen
+        // console.log(globalIndex + "-Index wrong");
+        // console.log(playerPattern[globalIndex] + "-playerPattern wrong");
+        // console.log(runPattern[globalIndex] + "-runPattern wrong");
     }
+
 }
+
+
 
 //--------------------------------------------------- CONTINUOUS COMPARE OPTION 2 ----------------------
 
 // runPattern.length === playerPattern.length && runPattern.every(function (value, index) {
 // return value === playerPattern[index]
-//--------------------------------------------------- RESET BUTTON  ----------------------------
 
+//--------------------------------------------------- RESET BUTTON  ------------------------------------
 
 function resetBtn() {
     let body = document.querySelector("body");
@@ -161,41 +170,59 @@ function resetBtn() {
 
 //--------------------------------------------------- COLOR SQUARES BLINKER  ----------------------------
 
-
 function blinker() {
 
     for (let i = 1; i < runPattern.length + 1; i++) {
         setTimeout(function () {
             $("#" + runPattern[i - 1]).fadeOut(200).fadeIn(200);
+            document.getElementById("sound").play()
         }, i * 1100);
     }
 }
 
 //--------------------------------------------------- WIN LOSE TIMEUP NOTIFICATION  ----------------------------
 
+// function timeup() {
+//     let body = document.querySelector("body");
+//     let timeup = document.createElement('p');
+//     timeup.id = "timeup";
+//     body.appendChild(timeup);
+//     document.getElementById('timeup').innerHTML = "Time's up, you have lost the game..";
+// }
 
-function timeup() {
-    let body = document.querySelector("body");
-    let timeup = document.createElement('p');
-    timeup.id = "timeup";
-    body.appendChild(timeup);
-    document.getElementById('timeup').innerHTML = "Time's up, you have lost the game..";
-}
+// function lose() {
+//     let body = document.querySelector("body");
+//     let lose = document.createElement('p');
+//     lose.id = "lose";
+//     body.appendChild(lose);
+//     document.getElementById('lose').innerHTML = "Incorrect, you have lost the game..";
+//     clearInterval(downloadTimer);
+//     document.getElementById("progressBar").value = 0;
+//     document.getElementById("countdown").innerHTML = "";
+//     reset()
+//     document.getElementById("win").innerHTML = "";
+// }
+
+// function win() {
+//     let body = document.querySelector("body");
+//     let win = document.createElement('p');
+//     win.id = "win";
+//     body.appendChild(win);
+//     document.getElementById('win').innerHTML = "Correct! Next round will have an additional sequence added";
+// }
+
+
 
 function lose() {
-    let body = document.querySelector("body");
-    let lose = document.createElement('p');
-    lose.id = "lose";
-    body.appendChild(lose);
-    document.getElementById('lose').innerHTML = "Incorrect, you have lost the game..";
+    msg.innerHTML = "Incorrect, you have lost the game..";
+    clearInterval(downloadTimer);
+    document.getElementById("progressBar").value = 0;
+    document.getElementById("countdown").innerHTML = "";
+    reset()
 }
 
 function win() {
-    let body = document.querySelector("body");
-    let win = document.createElement('p');
-    win.id = "win";
-    body.appendChild(win);
-    document.getElementById('win').innerHTML = "Correct! \nNext round will have an additional sequence added";
+    msg.innerHTML = "Correct! Next round will have an additional sequence added";
 }
 
 //----------------------------------------------------- NAME OF PLAYER  ----------------------------------
@@ -239,22 +266,33 @@ function moves() {
 }
 
 
-//
 //-----------------------------------------------------------  TIMER  ------------------------------------------
 
+
 function wordTimer() {
-    let timeleft = 10;
+    let timeleft = patternTimerRef;
     downloadTimer = setInterval(function () {
         if (timeleft <= 0) {
-            clearInterval(downloadTimer);
-            document.getElementById("countdown").innerHTML = "Time's Up!";
-
-
+            // document.getElementById("progressBar").value = 0 ;
+            document.getElementById("countdown").innerHTML = "Time's Up! you have lost the game..";
+            if (timeleft == 0) {
+                document.getElementById("progressBar").value = 0;
+                msg.innerHTML = "";
+                reset()
+            }
         } else {
-            document.getElementById("progressBar").value = 10 - timeleft;
             document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+            document.getElementById("progressBar").value = patternTimerRef - timeleft;
         }
-
         timeleft -= 1;
     }, 1000);
+}
+
+//-------------------------------------------------- SHOW RESET BUTTON / RELOAD ON CLICK  ------------------------------------------
+
+function reset() {
+    resetBtn();
+    document.getElementById("resetBtn").addEventListener("click", function () {
+        location.reload()
+    })
 }
