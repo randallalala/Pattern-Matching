@@ -262,3 +262,157 @@ function reset() {
         location.reload();
     })
 }
+
+//-------------------------------------------------- TOP SCORERS  --------------------------------
+let LSfirstName = localStorage.getItem('num1Name');
+let LSfirstScore = localStorage.getItem('num1Score');
+let LSsecondName = localStorage.getItem('num2Name');
+let LSsecondScore = localStorage.getItem('num2Score');
+let LSthirdName = localStorage.getItem('num3Name');
+let LSthirdScore = localStorage.getItem('num3Score');
+let LSfirstLevel = localStorage.getItem('levelFirst');
+let LSsecondLevel = localStorage.getItem('levelSecond');
+let LSthirdLevel = localStorage.getItem('levelThird');
+
+
+
+//OPTIMIZED LEADERBOARD #1-#3 FUNCTIONS
+//FN - TO FILL 3RD PLACE IN TABLE
+const thirdGroup = () => {
+    if(LSthirdName && LSthirdScore && LSthirdLevel){
+        thirdName.textContent = `${LSthirdName}`;
+        thirdScore.textContent = `${LSthirdScore}`;
+        playerLevelThird.textContent = `${LSthirdLevel}`;
+        
+    }
+}
+
+// //FN - TO FILL 2ND PLACE IN TABLE
+const secondGroup = () => {
+    if(LSsecondName && LSsecondScore && LSsecondLevel){
+        secondName.textContent = `${LSsecondName}`;
+        secondScore.textContent = `${LSsecondScore}`;
+        playerLevelSecond.textContent = `${LSsecondLevel}`;
+    }
+}
+
+// //FN - TO FILL 1ST PLACE IN TABLE
+const firstGroup = () => {
+    if(LSfirstName && LSfirstScore && LSfirstLevel){
+        firstName.textContent = `${LSfirstName}`;
+        firstScore.textContent = `${LSfirstScore}`;
+        playerLevelFirst.textContent = `${LSfirstLevel}`;
+    }
+}
+
+//FN-TO CHECK IF HIGHSCORE IS EXCEEDED, IF YES, DISPLAY NEW HIGHSCORE
+const isHighScore = () =>{
+    if(LSfirstScore){
+        highScoreDisplay.textContent = LSfirstScore;
+    }
+}
+
+
+//FN - UPDATE WALL OF FAME SCOREBOARD WITH LOCALSTORAGE
+const ranking = () => {
+
+    //TRACK INPUT FOR TESTCASES
+    scoreArray.unshift(totalScore);
+
+    if(LSfirstScore){
+        //IF THERE ARE EXISTING SCORES
+            if(totalScore >= Number(LSfirstScore)){
+
+                //store the array in localstorage, store as string, when get data need to convert(parse)
+                if(LSsecondName){
+                    LSthirdName =  LSsecondName;
+                    LSthirdScore =  LSsecondScore;
+                    LSthirdLevel = LSsecondLevel;
+                    localStorage.setItem('num3Name', LSthirdName);
+                    localStorage.setItem('num3Score', LSthirdScore);
+                    localStorage.setItem('levelThird', LSthirdLevel)
+                }
+
+
+                LSsecondName =  LSfirstName;
+                LSsecondScore =  LSfirstScore;
+                LSsecondLevel = LSfirstLevel;
+                localStorage.setItem('num2Name', LSsecondName);
+                localStorage.setItem('num2Score', LSsecondScore);
+                localStorage.setItem('levelSecond', LSsecondLevel)
+
+
+                LSfirstScore = totalScore;
+                LSfirstName = player;
+                LSfirstLevel =  level.value;
+                localStorage.setItem('num1Name', LSfirstName);
+                localStorage.setItem('num1Score', LSfirstScore);
+                localStorage.setItem('levelFirst', LSfirstLevel);
+
+                
+                resultModal();
+
+            } 
+
+            else if(totalScore > Number(LSsecondScore)) {
+
+                if(LSsecondName){
+                    LSthirdName =  LSsecondName;
+                    LSthirdScore = LSsecondScore;
+                    LSthirdLevel = LSsecondLevel;
+                    localStorage.setItem('num3Name', LSthirdName);
+                    localStorage.setItem('num3Score', LSthirdScore);
+                    localStorage.setItem('levelThird', LSthirdLevel)
+                }
+
+
+                LSsecondName =  player;
+                LSsecondScore =  totalScore;
+                LSsecondLevel = level.value;
+                localStorage.setItem('num2Name', LSsecondName);
+                localStorage.setItem('num2Score', LSsecondScore);
+                localStorage.setItem('levelSecond', LSsecondLevel)
+
+
+            }
+
+            else if(totalScore > Number(LSthirdScore)) {
+
+                LSthirdName =  player;
+                LSthirdScore =  totalScore;
+                LSthirdLevel = level.value;
+                localStorage.setItem('num3Name', LSthirdName);
+                localStorage.setItem('num3Score', LSthirdScore);
+                localStorage.setItem('levelThird', LSthirdLevel);
+                
+
+            }
+
+
+    } else {
+        //IF LEADERBOARD IS TOTALLY EMPTY
+        if(totalScore){
+            LSfirstScore = totalScore;
+            LSfirstName = player;
+            LSfirstLevel =  level.value;
+            localStorage.setItem('num1Name', LSfirstName)
+            localStorage.setItem('num1Score', LSfirstScore)
+            localStorage.setItem('levelFirst', LSfirstLevel);
+
+            resultModal();
+        }
+    }
+
+
+//largest number
+
+    console.log(localStorage);
+
+    //localStorage array is doing unshift rather than push - just fyi
+
+    //populate leaderboard
+    firstGroup();
+    secondGroup();
+    thirdGroup();
+
+}

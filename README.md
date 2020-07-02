@@ -58,13 +58,33 @@ Game is hosted here: https://randallalala.github.io/Pattern-Matching/
 - Timer and progressbar functions
 - level and moves counter functions
 
+#### Technologies used:
+1. Javascript
+2. CSS
+3. HTML
+4. Minimal jquery - fadeout().fadein()
+5. Minimal bootstrap - styled buttons and table
+6. Misc. methods used
+- location.reload (reload page)
+- JSON.stringify (change array for comparison)
+- progressbar (timer)
+- audio (tag to click listeners)
+
 #### Bugs & Issues Faced
 - Overlapping timer after player win
-    - Solved: reset intervals in between rounds
+    - Resolved: Reset intervals in between rounds
 - Flashing glitch
-    - Solved: remove mid-game win alerts
+    - Resolved: Remove mid-game win alerts
 - Empty restart button if player keeps clicking
-    - Solved: add a remove click listener function
+    - Resolved: Add a remove click listener function
+- Blinker glitch which overlaps
+    - Resolved: Add a remove click listener function
+- Other issues/mistakes which took time to resolve
+    - Resolved: Wrong symbols used that caused malfunctions = inplace of ()
+    - Resolved: Naming and camelcase errors
+    - Resolved: Sequence of which variables or functions are called
+- Only allow user to start clicking after pattern fully displayed (unsolved)
+- Highscore storing (unsolved)
 
 #### Further Possible Improvements
 - Responsive screen size scaling
