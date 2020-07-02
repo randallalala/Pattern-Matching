@@ -45,6 +45,12 @@ body {
     margin: 10px;
 }
 
+.table {
+    width: 70%;
+    margin: auto;
+    
+}
+
 .opaque {
     background: grey;
     transition: 1s;

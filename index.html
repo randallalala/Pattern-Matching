@@ -23,11 +23,11 @@
         <div id="2" class="green "></div>
         <div id="3" class="blue "></div>
         <div id="4" class="yellow "></div>
-        
+
     </div>
     <progress value="0" max="patternTimerRef" id="progressBar"></progress>
     <div id="countdown"></div>
-    
+
     <div>Difficulty Level </div>
     <select id="difficulty" name="dropmenu">
         <option value="normal">Normal</option>
@@ -36,6 +36,66 @@
 
     <button id="startBtn" class="btn btn-secondary btn-lg">Start Game</button>
 
+
+    <div class="score-board-block">
+        <p></p>
+        <h4 class="board-title"><u>Top Scorers</u></h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player</th>
+                    <th scope="col">Difficulty</th>
+                    <th scope="col">Level</th>
+                    <th scope="col">Moves Made</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- white-->
+                <tr>
+                    <th scope="row">1</th>
+                    <td class="table-light"></td>
+                    <td class="table-light"></td>
+                    <td class="table-light"></td>
+                    <td class="table-light"></td>
+                </tr>
+                <!-- red -->
+                <tr>
+                    <th scope="row">2</th>
+                    <td class="table-danger"></td>
+                    <td class="table-danger"></td>
+                    <td class="table-danger"></td>
+                    <td class="table-danger"></td>
+                </tr>
+
+                <!-- green-->
+                <tr>
+                    <th scope="row">3</th>
+                    <td class="table-success"></td>
+                    <td class="table-success"></td>
+                    <td class="table-success"></td>
+                    <td class="table-success"></td>
+                </tr>
+                <!-- blue -->
+                <tr>
+                    <th scope="row">4</th>
+                    <td class="table-primary"></td>
+                    <td class="table-primary"></td>
+                    <td class="table-primary"></td>
+                    <td class="table-primary"></td>
+                </tr>
+                <!-- yellow-->
+                <tr>
+                    <th scope="row">5</th>
+                    <td class="table-warning"></td>
+                    <td class="table-warning"></td>
+                    <td class="table-warning"></td>
+                    <td class="table-warning"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
     <p></p>
     <script>
 
