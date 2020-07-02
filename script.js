@@ -1,42 +1,31 @@
 // document.querySelector('red').addEventListener('click', function(event){
 //     // let click = event.target.value;
-//     // function alert(){
-//     //     if click 
-//         alert("red");
-//     }
 //     // let output = inputHappened(clicked);
 
+//---------------------------------------------- TO FIX -------------------------------------------------------
 
-//-------------------------------------------- TO FIX -----------------------------------------
 
-
-//---------------------------------------------- INTERVAL ----------------------------------------------
-
-// clearInterval(interval);
-// setInterval(function () {}, 1000);
-
-//---------------------------------------------- GLOBAL VARIABLES ----------------------------------------
+//---------------------------------------------- GLOBAL VARIABLES ----------------------------------------------
 let audio = new Audio('homer_scream.mp3');
-audio.volume = 0.3;
+audio.volume = 0.2;
 let runPattern = [];
 let playerPattern = [];
 let gameLevel = 1;
 let levelsCompleted = 0;
 let movesCounter = 0;
-let downloadTimer = null
-let patternTimerRef = null
-let globalIndex = 0
+let downloadTimer = null;
+let patternTimerRef = null;
+let globalIndex = 0;
 // console.log(patternTimerRef);
 let msg = document.createElement('p');
 let body = document.querySelector("body");
 msg.id = "msg";
 body.appendChild(msg);
-let gameState = false
-let difficulty = document.getElementById("difficulty")
+let gameState = false;
+let difficulty = document.getElementById("difficulty");
 
 
-
-//---------------------------------------------- RANDOM PATTERN LOOP  ----------------------------------------
+//---------------------------------------------- RANDOM PATTERN LOOP  --------------------------------------------
 
 
 function randomPattern() {
@@ -45,81 +34,81 @@ function randomPattern() {
 
         let random = Math.floor(Math.random() * 4) + 1;
         runPattern.push(random);
-        //i=#of seconds allowed + 4sec 
-        patternTimerRef = i + 4
+        patternTimerRef = i + 4; // num of seconds in timer + 4sec 
         document.getElementById("progressBar").max = patternTimerRef;
-        if (i == gameLevel) {
-            gameState = true
-            console.log("object");
-        }
 
     }
     // console.log(patternTimerRef);
     level(); //level counter
     moves(); // moves counter
     blinker(); // sound and flash for button
-    clearInterval(downloadTimer)
-    wordTimer()
-    console.log(gameState);
+    clearInterval(downloadTimer); // clear timer interval 
+    timer(); //
+    // console.log(gameState);
     console.log("Pattern " + runPattern);
 }
 
-//------------------------------------------------- START BUTTON / PLAYER PATTERN -------------------------------------
+//------------------------------------------------- START BUTTON / PLAYER PATTERN ---------------------------------
 
 document.getElementById("startBtn").addEventListener('click', function () {
     gameState = true;
 
     if (gameState) {
         randomPattern();
-        movesCounter = 1;
+        movesCounter = 1; 
         this.style.display = 'none' // hide start button
 
         document.getElementById("1").addEventListener("click", function () {
             playerPattern.push(1); // push selection into array
             $(this).fadeOut(100).fadeIn(100); // blink when user select square
             compare();
-            movesCounter++;
-            audio.play();
+            movesCounter++; // moves counter of player
+            audio.play(); //  trigger sound when player clicks
         });
 
         document.getElementById("2").addEventListener("click", function () {
             playerPattern.push(2); // push selection into array
             $(this).fadeOut(100).fadeIn(100); // blink when user select square
             compare();
-            movesCounter++;
-            audio.play();
+            movesCounter++; // moves counter of player
+            audio.play(); // trigger sound when player clicks
         });
 
         document.getElementById("3").addEventListener("click", function () {
             playerPattern.push(3); // push selection into array
             $(this).fadeOut(100).fadeIn(100); // blink when user select square
             compare();
-            movesCounter++;
-            audio.play();
+            movesCounter++; // moves counter of player
+            audio.play(); //  trigger sound when player clicks
         });
 
         document.getElementById("4").addEventListener("click", function () {
+           
+            
             playerPattern.push(4); // push selection into array
             $(this).fadeOut(100).fadeIn(100); // blink when user select square
             compare();
-            movesCounter++;
-            audio.play();
+            movesCounter++; // moves counter
+            audio.play(); //  trigger sound when player clicks
         })
     }
 })
 
-//--------------------------------------------------- COMPARING CHECKER -----------------------------
+
+
+//--------------------------------------------------- COMPARING CHECKER -------------------------------------------
 
 
 function compare() {
+    let globalIndex = playerPattern.length-1
     if (JSON.stringify(runPattern[globalIndex]) == JSON.stringify(playerPattern[globalIndex])) {
         // console.log(globalIndex + '-Index correct');
         // console.log(playerPattern[globalIndex] + "-playerPattern correct");
         // console.log(runPattern[globalIndex] + "-runPattern correct");
-        globalIndex++
+        // globalIndex++;
 
         if (playerPattern.length == runPattern.length) {
-            globalIndex = 0
+            globalIndex = 0;
             // console.log("deeeperr");
             if (JSON.stringify(runPattern) == JSON.stringify(playerPattern)) {
                 // console.log("Correct " + playerPattern);
@@ -127,10 +116,10 @@ function compare() {
                 runPattern = []; // reset runpattern
                 playerPattern = [];  // reset playerpattern
                 if (difficulty.value == "normal") {
-                    gameLevel++;
+                    gameLevel++; // add one more pattern to next sequence
                 }
                 else if (difficulty.value == "extreme") {
-                    gameLevel += 3;
+                    gameLevel += 3; //add 3 more patterns to next sequence
                 }
                 levelsCompleted++;   // levels counter
                 randomPattern();    // run next pattern
@@ -146,7 +135,6 @@ function compare() {
     } else {
         console.log("lose");
         // gameState = false
-
         return lose(); // lose msg on screen
         // console.log(globalIndex + "-Index wrong");
         // console.log(playerPattern[globalIndex] + "-playerPattern wrong");
@@ -155,13 +143,12 @@ function compare() {
 }
 
 
-
-//--------------------------------------------------- CONTINUOUS COMPARE OPTION 2 ----------------------
+//--------------------------------------------------- CONTINUOUS COMPARE OPTION 2 ------------------------------
 
 // runPattern.length === playerPattern.length && runPattern.every(function (value, index) {
 // return value === playerPattern[index]
 
-//--------------------------------------------------- RESET BUTTON  ------------------------------------
+//--------------------------------------------------- RESET BUTTON  ----------------------------------------------
 
 function resetBtn() {
     let resetBtn = document.createElement('button');
@@ -172,58 +159,38 @@ function resetBtn() {
 
 }
 
-//--------------------------------------------------- COLOR SQUARES BLINKER  ----------------------------
+//--------------------------------------------------- COLOR SQUARES BLINKER+SOUND  ---------------------------------
 
 function blinker() {
 
     for (let i = 1; i < runPattern.length + 1; i++) {
-        setTimeout(function () {
+        setTimeout(function () { // delay for flash
             $("#" + runPattern[i - 1]).fadeOut(200).fadeIn(200);
-            document.getElementById("sound").play()
-        }, i * 1100);
+            document.getElementById("sound").play();
+        }, i * 900); // each flash 900ms apart 
     }
 }
 
-//--------------------------------------------------- WIN LOSE TIMEUP NOTIFICATION  ----------------------------
+//--------------------------------------------------- WIN LOSE TIMEUP NOTIFICATION  ---------------------------------
 
-// function timeup() {
-//     let body = document.querySelector("body");
-//     let timeup = document.createElement('p');
-//     timeup.id = "timeup";
-//     body.appendChild(timeup);
-//     document.getElementById('timeup').innerHTML = "Time's up, you have lost the game..";
-// }
-
-// function lose() {
-//     let body = document.querySelector("body");
-//     let lose = document.createElement('p');
-//     lose.id = "lose";
-//     body.appendChild(lose);
-//     document.getElementById('lose').innerHTML = "Incorrect, you have lost the game..";
-//     clearInterval(downloadTimer);
-//     document.getElementById("progressBar").value = 0;
-//     document.getElementById("countdown").innerHTML = "";
-//     reset()
-//     document.getElementById("win").innerHTML = "";
-// }
 
 function lose() {
     msg.innerHTML = "Incorrect, you have lost the game..";
     clearInterval(downloadTimer);
     document.getElementById("progressBar").value = 0;
     document.getElementById("countdown").innerHTML = "";
-    reset()
-    gameState = false
+    reset();
+    gameState = false;
 
 }
 
 function win() {
     msg.innerHTML = "Correct! Next round will have an additional sequence added";
-    gameState = false
+    gameState = false;
 
 }
 
-//----------------------------------------------------- NAME OF PLAYER  ----------------------------------
+//----------------------------------------------------- NAME OF PLAYER  -----------------------------------------------
 
 function getPlayerName() {
 
@@ -234,15 +201,15 @@ function getPlayerName() {
     body.appendChild(player);
     document.getElementById('player').innerHTML = "Hello " + playerName;
 
-    if (playerName == null) {
+    if (playerName == null) { // if no name entered, show stranger
         document.getElementById("player").innerHTML = "Hello Stranger";
     }
 }
-getPlayerName();
+// getPlayerName();
 
-//---------------------------------------------------- LEVELS COMPLETED  ----------------------------------
+//---------------------------------------------------- LEVELS COMPLETED  -----------------------------------------------
 
-function level() {
+function level() {  // level counter
 
     let body = document.querySelector("body");
     let levelIndicator = document.createElement('p');
@@ -252,9 +219,9 @@ function level() {
 
 }
 
-//----------------------------------------------------- # OF MOVES  ----------------------------------------
+//----------------------------------------------------- # OF MOVES  -----------------------------------------------------
 
-function moves() {
+function moves() {   // moves/click counter
 
     let body = document.querySelector("body");
     let moves = document.createElement('p');
@@ -264,21 +231,20 @@ function moves() {
 }
 
 
-//-----------------------------------------------------------  TIMER  ------------------------------------------
+//---------------------------------------------------  TIMER  ------------------------------------------------------------
 
-function wordTimer() {
-    let timeleft = patternTimerRef;
-    downloadTimer = setInterval(function () {
-        if (timeleft <= 0) {
-            // document.getElementById("progressBar").value = 0 ;
+function timer() {
+    let timeleft = patternTimerRef; 
+    downloadTimer = setInterval(function () { //trigger every 1s
+        if (timeleft <= 0) { // keep running if more than 0s
             document.getElementById("countdown").innerHTML = "Time's Up! you have lost the game..";
-            if (timeleft == 0) {
-                document.getElementById("progressBar").value = 0;
-                msg.innerHTML = "";
-                gameState = false;
+            if (timeleft == 0) { // if timer 0s
+                document.getElementById("progressBar").value = 0; // clear prog bar
+                msg.innerHTML = ""; // reset back to empty
+                gameState = false; 
                 reset();
             }
-        } else {
+        } else { //keep running words and progbar if havent reached 0s
             document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
             document.getElementById("progressBar").value = patternTimerRef - timeleft;
         }
@@ -286,7 +252,7 @@ function wordTimer() {
     }, 1000);
 }
 
-//-------------------------------------------------- SHOW RESET BUTTON / RELOAD ON CLICK  ------------------------------------------
+//-------------------------------------------------- SHOW RESET BUTTON / RELOAD ON CLICK  --------------------------------
 
 function reset() {
     playerPattern = [];
